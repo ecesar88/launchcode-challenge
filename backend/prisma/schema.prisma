@@ -22,7 +22,7 @@ model Quote {
   returnDate    String
 
   numberOfTravellers Int
-  
+
   contact            Contact[]
   transportationType TransportationType[]
 

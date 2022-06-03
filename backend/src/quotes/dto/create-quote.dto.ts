@@ -1,5 +1,4 @@
 import { Contact, Quote, TransportationType } from '@prisma/client';
-import { Type } from 'class-transformer';
 import {
   IsArray,
   IsDateString,
@@ -30,7 +29,9 @@ export class CreateQuoteDto implements QuoteDTO {
   @IsDateString()
   returnDate: string;
 
-  transportationTypes?: TransportationType[];
+  @IsArray()
+  transportationType: TransportationType[];
 
-  contact?: Contact[];
+  @IsArray()
+  contact: Contact[];
 }

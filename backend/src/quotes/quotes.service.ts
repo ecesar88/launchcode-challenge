@@ -10,7 +10,15 @@ export class QuotesService {
   create(createQuoteDto: CreateQuoteDto) {
     try {
       const quote = this.prismaService.quote.create({
-        data: createQuoteDto,
+        data: {
+          ...createQuoteDto,
+          contact: {
+            create: [...createQuoteDto.contact],
+          },
+          transportationType: {
+            create: [...createQuoteDto.transportationType],
+          },
+        },
       });
 
       return quote;
@@ -20,18 +28,43 @@ export class QuotesService {
   }
 
   findAll() {
-    return `This action returns all quotes`;
+    try {
+      return this.prismaService.quote.findMany({
+        include: {
+          contact: true,
+          transportationType: true,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} quote`;
+  findOne(id: string) {
+    try {
+      return this.prismaService.quote.findUnique({
+        where: {
+          id: id,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
-  update(id: number, updateQuoteDto: UpdateQuoteDto) {
+  update(id: string, updateQuoteDto: UpdateQuoteDto) {
     return `This action updates a #${id} quote`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} quote`;
+  remove(id: string) {
+    try {
+      return this.prismaService.quote.delete({
+        where: {
+          id: id,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 }
