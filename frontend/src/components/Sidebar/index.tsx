@@ -10,7 +10,7 @@ import {
 } from "react-icons/ai"
 import { MdAttachMoney, MdSupport } from "react-icons/md"
 import { FaCog, FaTelegramPlane } from "react-icons/fa"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import ROUTES from "../../constants/routes"
 
 const Sidebar = () => {
@@ -24,7 +24,7 @@ const Sidebar = () => {
       {
         label: "Quotes",
         icon: <MdAttachMoney />,
-        route: "/teste",
+        route: ROUTES.QUOTES,
       },
       {
         label: "Leads",
@@ -59,6 +59,7 @@ const Sidebar = () => {
   )
 
   const navigate = useNavigate()
+  const location = useLocation()
 
   return (
     <Flex direction="column" justifyContent="space-between" bg="brand.600">
@@ -68,7 +69,7 @@ const Sidebar = () => {
             key={item.label}
             label={item.label}
             icon={item.icon}
-            selected={false}
+            selected={Boolean(location.pathname === item.route)}
             onClick={() => navigate(`${item.route}`)}
           />
         ))}

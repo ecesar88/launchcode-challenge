@@ -3,12 +3,14 @@ import React from "react"
 import { Route, Routes } from "react-router-dom"
 import ROUTES from "../../constants/routes"
 import Home from "../../pages/Home"
+import Quotes from "../../pages/Quotes"
 
 const Router = () => {
   return (
     <Flex w="100%" h="100%" p="1rem">
       <Routes>
         <Route path={ROUTES.HOME} element={<Home />} />
+        <Route path={ROUTES.QUOTES} element={<Quotes />} />
       </Routes>
     </Flex>
   )

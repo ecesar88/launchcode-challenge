@@ -15,6 +15,8 @@
     "@chakra-ui/theme-tools": "^2.0.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11",
+    "@types/uuid": "^8.3.4",
+    "csstype": "^3.1.0",
     "eslint-config-prettier": "^8.5.0",
     "framer-motion": "^6",
     "lorem-ipsum": "^2.0.4",
@@ -23,7 +25,8 @@
     "react-dom": "^18.0.0",
     "react-icons": "^4.4.0",
     "react-query": "^3.39.1",
-    "react-router-dom": "6"
+    "react-router-dom": "6",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",

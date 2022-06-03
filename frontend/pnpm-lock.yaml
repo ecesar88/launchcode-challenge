@@ -10,9 +10,11 @@ specifiers:
   '@emotion/styled': ^11
   '@types/react': ^18.0.0
   '@types/react-dom': ^18.0.0
+  '@types/uuid': ^8.3.4
   '@typescript-eslint/eslint-plugin': ^5.27.0
   '@typescript-eslint/parser': ^5.27.0
   '@vitejs/plugin-react': ^1.3.0
+  csstype: ^3.1.0
   eslint: ^8.16.0
   eslint-config-prettier: ^8.5.0
   eslint-plugin-react: ^7.30.0
@@ -25,6 +27,7 @@ specifiers:
   react-query: ^3.39.1
   react-router-dom: '6'
   typescript: ^4.6.3
+  uuid: ^8.3.2
   vite: ^2.9.9
 
 dependencies:
@@ -35,6 +38,8 @@ dependencies:
   '@chakra-ui/theme-tools': 2.0.1_@chakra-ui+system@2.1.1
   '@emotion/react': 11.9.0_t32v4ktcynrgeobeattnfg3v6m
   '@emotion/styled': 11.8.1_iay6a7nbb2nsf7nl3gr24qbc2a
+  '@types/uuid': 8.3.4
+  csstype: 3.1.0
   eslint-config-prettier: 8.5.0_eslint@8.16.0
   framer-motion: 6.3.6_ef5jwxihqo6n7gxfmzogljlgcm
   lorem-ipsum: 2.0.4
@@ -44,6 +49,7 @@ dependencies:
   react-icons: 4.4.0_react@18.1.0
   react-query: 3.39.1_ef5jwxihqo6n7gxfmzogljlgcm
   react-router-dom: 6.3.0_ef5jwxihqo6n7gxfmzogljlgcm
+  uuid: 8.3.2
 
 devDependencies:
   '@types/react': 18.0.10
@@ -1371,6 +1377,10 @@ packages:
 
   /@types/scheduler/0.16.2:
     resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
+
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+    dev: false
 
   /@typescript-eslint/eslint-plugin/5.27.0_dszb5tb7atwkjjijmmov4qhi7i:
     resolution: {integrity: sha512-DDrIA7GXtmHXr1VCcx9HivA39eprYBIFxbQEHI6NyraRDxCGpxAFiYQAT/1Y0vh1C+o2vfBiy4IuPoXxtTZCAQ==}
@@ -3375,6 +3385,11 @@ packages:
       detect-node-es: 1.1.0
       react: 18.1.0
       tslib: 2.4.0
+    dev: false
+
+  /uuid/8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
     dev: false
 
   /v8-compile-cache/2.3.0:

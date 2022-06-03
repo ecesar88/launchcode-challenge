@@ -9,7 +9,7 @@ import {
 
 type QuoteDTO = Omit<Quote, 'id' | 'createdAt' | 'updatedAt'>;
 
-export class CreateQuoteDto implements QuoteDTO {
+export class QuoteDto implements QuoteDTO {
   @IsString()
   @IsNotEmpty()
   departureLocation: string;

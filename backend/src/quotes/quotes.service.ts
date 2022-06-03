@@ -1,22 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateQuoteDto } from './dto/create-quote.dto';
-import { UpdateQuoteDto } from './dto/update-quote.dto';
+import { QuoteDto } from './dto/quote.dto';
 
 @Injectable()
 export class QuotesService {
   constructor(private prismaService: PrismaService) {}
 
-  create(createQuoteDto: CreateQuoteDto) {
+  create(quoteDto: QuoteDto) {
     try {
       const quote = this.prismaService.quote.create({
         data: {
-          ...createQuoteDto,
+          ...quoteDto,
           contact: {
-            create: [...createQuoteDto.contact],
+            create: [...quoteDto.contact],
           },
           transportationType: {
-            create: [...createQuoteDto.transportationType],
+            create: [...quoteDto.transportationType],
           },
         },
       });
@@ -52,8 +51,19 @@ export class QuotesService {
     }
   }
 
-  update(id: string, updateQuoteDto: UpdateQuoteDto) {
-    return `This action updates a #${id} quote`;
+  update(id: string, quoteDto: QuoteDto) {
+    try {
+      return this.prismaService.quote.update({
+        where: {
+          id: id,
+        },
+        data: {
+          ...quoteDto,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   remove(id: string) {
