@@ -18,11 +18,12 @@ model Quote {
   departureLocation   String
   destinationLocation String
 
-  departureDate DateTime
-  returnDate    DateTime
+  departureDate String
+  returnDate    String
 
   numberOfTravellers Int
-
+  
+  contact            Contact[]
   transportationType TransportationType[]
 
   @@map("quotes")
@@ -37,4 +38,14 @@ model TransportationType {
   quoteId String?
 
   @@map("transportationTypes")
+}
+
+model Contact {
+  id                 String @id @default(uuid())
+  contactInformation String
+
+  Quote   Quote?  @relation(fields: [quoteId], references: [id])
+  quoteId String?
+
+  @@map("contact")
 }
