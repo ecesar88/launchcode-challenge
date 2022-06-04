@@ -3,6 +3,15 @@ import { GlobalStyleProps } from "@chakra-ui/theme-tools"
 import TextOverride from "./components/Text"
 
 const globalTheme: Partial<ChakraTheme> = extendTheme({
+  breakpoints: {
+    base: "400px",
+    sm: "600px",
+    md: "780px",
+    lg: "1024px",
+    xl: "1360px",
+    "2xl": "1920px",
+    "3xl": "1920px",
+  },
   components: {
     Text: TextOverride,
   },
