@@ -1,7 +1,7 @@
 enum ROUTES {
   HOME = "/",
   QUOTES = "/quotes",
-  QUOTE = "/quote/:id",
+  QUOTE = "/quote",
   LEADS = "/leads",
   TOURS = "/tours",
   INVOICES = "/invoices",

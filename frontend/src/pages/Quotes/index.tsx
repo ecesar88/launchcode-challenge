@@ -1,17 +1,11 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  CircularProgress,
   Flex,
   useToast,
-  useToken,
   Text,
-  Button,
   IconButton,
+  CircularProgress,
 } from "@chakra-ui/react"
-import { MdAttachMoney } from "react-icons/md"
 
 import Card from "../../components/Card"
 import CustomTable, { ITable, ITableHeader } from "../../components/Table"
@@ -22,40 +16,51 @@ import IQuote from "../../models/quote"
 import { SearchIcon } from "@chakra-ui/icons"
 import { useNavigate } from "react-router-dom"
 import ROUTES from "../../constants/routes"
+import { FaCalendarDay, FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa"
+import { BsFillPeopleFill } from "react-icons/bs"
 
 const Quotes = () => {
   const [data, setData] = useState([])
-
-  const [brand205] = useToken("colors", ["brand.205"])
+  const [isLoading, setIsLoading] = useState(true)
 
   const toast = useToast()
 
-  const { isLoading } = useQuery("quotes", QuotesService.getAll, {
-    onSuccess: (data) => {
-      setData(data.data)
+  const { isLoading: _isLoadingReactQuery } = useQuery(
+    "quotes",
+    QuotesService.getAll,
+    {
+      onSuccess: (data) => {
+        setData(data.data)
 
-      toast({
-        title: "Success",
-        description: "Request made successfully",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-right",
-      })
-    },
-    onError: () => {
-      toast({
-        title: "Something went wrong",
-        description: "We could not fetch the data you are looking for",
-        status: "error",
-        duration: 5000,
-        isClosable: true,
-        position: "bottom-right",
-      })
-    },
-    refetchIntervalInBackground: false,
-    refetchOnWindowFocus: false,
-  })
+        toast({
+          title: "Success",
+          description: "Request made successfully",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-right",
+        })
+      },
+      onError: () => {
+        toast({
+          title: "Something went wrong",
+          description: "We could not fetch the data you are looking for",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "bottom-right",
+        })
+      },
+      refetchIntervalInBackground: false,
+      refetchOnWindowFocus: false,
+    }
+  )
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 3000)
+  }, [_isLoadingReactQuery])
 
   const navigate = useNavigate()
 
@@ -63,24 +68,29 @@ const Quotes = () => {
     {
       keyName: "departureLocation",
       label: "Departure",
+      headerChildren: <FaPlaneDeparture size="1rem" />,
     },
     {
       keyName: "destinationLocation",
       label: "Destination",
+      headerChildren: <FaPlaneArrival size="1rem" />,
     },
     {
       keyName: "departureDate",
       label: "Departure Date",
       format: formatISODateToCanadian,
+      headerChildren: <FaCalendarDay size="1rem" />,
     },
     {
       keyName: "returnDate",
       label: "Return Date",
       format: formatISODateToCanadian,
+      headerChildren: <FaCalendarDay size="1rem" />,
     },
     {
       keyName: "numberOfTravellers",
       label: "No. of Travellers",
+      headerChildren: <BsFillPeopleFill size="1rem" />,
       cellStyle: {
         display: "flex",
         justifyContent: "flex-end",
@@ -110,25 +120,7 @@ const Quotes = () => {
 
   return (
     <Flex direction="column" gap="1rem" width="100%">
-      <Flex alignItems="center">
-        <MdAttachMoney size="1.4rem" color={brand205} />
-
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="#" fontWeight="bold" color={brand205}>
-              Home
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-
-          <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href="#" fontWeight="bold" color={brand205}>
-              Quotes
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
-      </Flex>
-
-      <Flex width="100%" height="100%">
+      <Flex width="100%" height={isLoading ? "100%" : "auto"}>
         <Card width="100%" height="100%">
           {isLoading ? (
             <Flex justifyContent="center" alignItems="center" height="100%">
@@ -147,7 +139,7 @@ const Quotes = () => {
               height="100%"
             >
               <div>
-                <Text fontSize="2rem">Something went wrong :(</Text>
+                <Text fontSize="2rem">No data :(</Text>
               </div>
 
               <div>

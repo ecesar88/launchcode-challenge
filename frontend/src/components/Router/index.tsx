@@ -13,7 +13,7 @@ const Router = () => {
       <Routes>
         <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.QUOTES} element={<Quotes />} />
-        <Route path={ROUTES.QUOTE} element={<Quote />} />
+        <Route path={`${ROUTES.QUOTE}/:quoteId`} element={<Quote />} />
         <Route path={"*"} element={<NotFound />} />
       </Routes>
     </Flex>

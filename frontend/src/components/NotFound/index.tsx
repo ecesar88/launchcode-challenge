@@ -14,13 +14,13 @@ const NotFound = () => {
     >
       <Flex direction="column">
         <Box>
-          <Text fontWeight="bold" fontSize="5rem" color="red">
+          <Text fontWeight="bold" fontSize="5rem" color="brand.200">
             404
           </Text>
         </Box>
 
         <Box>
-          <Text fontWeight="bold" fontSize="3rem">
+          <Text fontWeight="bold" fontSize="3rem" color="brand.900">
             Not Found :(
           </Text>
         </Box>
