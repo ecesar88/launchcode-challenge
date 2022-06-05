@@ -45,6 +45,10 @@ export class QuotesService {
         where: {
           id: id,
         },
+        include: {
+          contact: true,
+          transportationType: true,
+        },
       });
     } catch (error) {
       throw error;
