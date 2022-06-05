@@ -29,30 +29,37 @@ const Sidebar = () => {
       {
         label: "Leads",
         icon: <AiFillProfile />,
+        route: ROUTES.LEADS,
       },
       {
         label: "Tours",
         icon: <FaTelegramPlane />,
+        route: ROUTES.TOURS,
       },
       {
         label: "Invoices",
         icon: <AiFillFileText />,
+        route: ROUTES.INVOICES,
       },
       {
         label: "Analytics",
         icon: <AiFillFund />,
+        route: ROUTES.ANALYTICS,
       },
       {
         label: "Team",
         icon: <AiOutlineTeam />,
+        route: ROUTES.TEAM,
       },
       {
         label: "Admin",
         icon: <FaCog />,
+        route: ROUTES.ADMIN,
       },
       {
         label: "Support",
         icon: <MdSupport />,
+        route: ROUTES.SUPPORT,
       },
     ],
     []

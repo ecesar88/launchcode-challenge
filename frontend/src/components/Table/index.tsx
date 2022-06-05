@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import React from "react"
+import React, { CSSProperties } from "react"
 import {
   Table,
   Thead,
@@ -9,76 +8,68 @@ import {
   Td,
   TableContainer,
 } from "@chakra-ui/react"
-import { v4 as uuidv4 } from "uuid"
 
-const CustomTable = () => {
-  const content = [
-    {
-      departureLocation: "KFOM",
-      destinationLocation: "9WN2",
-      departureDate: "2022-06-04T15:52:10.890Z",
-      returnDate: "2023-02-18T00:49:54.777Z",
-      numberOfTravellers: 20,
-    },
-    {
-      departureLocation: "YBGY",
-      destinationLocation: "8TS5",
-      departureDate: "2022-06-04T06:45:42.982Z",
-      returnDate: "2023-05-18T14:26:08.848Z",
-      numberOfTravellers: 105,
-    },
-    {
-      departureLocation: "FNCC",
-      destinationLocation: "NY91",
-      departureDate: "2022-06-04T12:11:28.200Z",
-      returnDate: "2023-03-04T02:36:08.647Z",
-      numberOfTravellers: 79,
-    },
-  ]
+export interface ITableHeader<T> {
+  keyName?: string
+  label?: string
+  format?: (cellData: string) => string
 
-  const tableData = {
-    header: [
-      {
-        keyName: "teste",
-        label: "AAAAAAAk",
-      },
-      {
-        keyName: "teste",
-        label: "AAAAAAAk",
-      },
-      {
-        keyName: "teste",
-        label: "AAAAAAAk",
-      },
-      {
-        keyName: "teste",
-        label: "AAAAAAAk",
-      },
-      {
-        keyName: "teste",
-        label: "AAAAAAAk",
-      },
-    ],
-    content,
+  cellStyle?: CSSProperties
+  headerStyle?: CSSProperties
+
+  headerChildren?: React.ReactNode
+  render?: (rowData: T) => React.ReactNode
+}
+
+export interface ITable<T> {
+  header: ITableHeader<T>[]
+  content: T[]
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CustomTable = <T extends Record<string, any>>(props: ITable<T>) => {
+  const { header, content } = props
+
+  const defaultCellStyle: CSSProperties = {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    gap: "6px",
   }
 
   return (
     <TableContainer>
-      <Table variant="simple">
+      <Table width="100%">
         <Thead>
           <Tr>
-            {tableData.header.map((header) => (
-              <Th key={uuidv4()}>{header.label}</Th>
+            {header.map((header, hIdx) => (
+              <Th key={hIdx}>
+                <div style={header?.headerStyle ?? defaultCellStyle}>
+                  {header?.headerChildren ?? null}
+                  <p>{header?.label?.toUpperCase()}</p>
+                </div>
+              </Th>
             ))}
           </Tr>
         </Thead>
 
-        <Tbody>
-          {tableData.content.map((data: any) => {
+        <Tbody style={{ fontFamily: "Calibri" }}>
+          {content?.map((data, dataIndex) => {
             return (
-              <Tr key={uuidv4()}>
-                {Object.keys(data).map((key: string) => {
-                  return <Td key={uuidv4()}>{data?.[key]}</Td>
+              <Tr key={dataIndex}>
+                {header?.map((headerItem, hIdx) => {
+                  return (
+                    <Td key={hIdx}>
+                      <div style={headerItem?.cellStyle ?? defaultCellStyle}>
+                        {(headerItem?.format
+                          ? headerItem?.format(
+                              data?.[headerItem?.keyName as string]
+                            )
+                          : data?.[headerItem?.keyName as string]) ??
+                          headerItem?.render?.(content?.[dataIndex])}
+                      </div>
+                    </Td>
+                  )
                 })}
               </Tr>
             )

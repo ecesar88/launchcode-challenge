@@ -3,7 +3,9 @@ import React from "react"
 import { Route, Routes } from "react-router-dom"
 import ROUTES from "../../constants/routes"
 import Home from "../../pages/Home"
+import Quote from "../../pages/Quote"
 import Quotes from "../../pages/Quotes"
+import NotFound from "../NotFound"
 
 const Router = () => {
   return (
@@ -11,6 +13,8 @@ const Router = () => {
       <Routes>
         <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.QUOTES} element={<Quotes />} />
+        <Route path={ROUTES.QUOTE} element={<Quote />} />
+        <Route path={"*"} element={<NotFound />} />
       </Routes>
     </Flex>
   )
