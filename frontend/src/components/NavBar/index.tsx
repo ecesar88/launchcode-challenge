@@ -9,6 +9,7 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
+  useMediaQuery,
 } from "@chakra-ui/react"
 import { BsFillGrid1X2Fill } from "react-icons/bs"
 import {
@@ -20,6 +21,8 @@ import {
 import Logo from "../../assets/logo-white.png"
 
 const NavBar = () => {
+  const [isLargerThan1024] = useMediaQuery("(min-width: 1024px)")
+
   return (
     <Flex
       height="4rem"
@@ -49,14 +52,16 @@ const NavBar = () => {
 
       <Flex gap="1rem" alignItems="inherit">
         <Flex>
-          <InputGroup minW="400px" maxW="800px" w="100%">
-            <InputLeftAddon
-              pointerEvents="none"
-              cursor="pointer"
-              children={<Search2Icon color="gray.300" />}
-            />
-            <Input size="md" bg="white" textColor="black" w="100%" />
-          </InputGroup>
+          {isLargerThan1024 ? (
+            <InputGroup minW="400px" maxW="800px" w="100%">
+              <InputLeftAddon
+                pointerEvents="none"
+                cursor="pointer"
+                children={<Search2Icon color="gray.300" />}
+              />
+              <Input size="md" bg="white" textColor="black" w="100%" />
+            </InputGroup>
+          ) : null}
         </Flex>
 
         <Flex gap="1rem" alignItems="center">

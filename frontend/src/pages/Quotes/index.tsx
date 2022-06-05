@@ -26,7 +26,7 @@ const Quotes = () => {
   const toast = useToast()
 
   const { isLoading: _isLoadingReactQuery } = useQuery(
-    "quotes",
+    "fetchQuotes",
     QuotesService.getAll,
     {
       onSuccess: (data) => {
@@ -56,6 +56,7 @@ const Quotes = () => {
     }
   )
 
+  // Simulte real request with a fake delay
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false)
@@ -100,12 +101,17 @@ const Quotes = () => {
       render: (row) => {
         return (
           <IconButton
-            colorScheme="blue"
+            bg="brand.200"
+            color="white"
             aria-label="go-to-quote"
             icon={<SearchIcon />}
             size="sm"
             onClick={() => {
-              navigate(`${ROUTES.QUOTE}/${row?.id}`)
+              navigate(`${ROUTES.QUOTE}/${row?.id}`, {
+                state: {
+                  id: row?.id,
+                },
+              })
             }}
           />
         )
