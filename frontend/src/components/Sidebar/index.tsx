@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import { Flex, Text } from "@chakra-ui/react"
+import { Flex, Text, useMediaQuery } from "@chakra-ui/react"
 import SidebarItem from "./SidebarItem"
 import {
   AiFillFileText,
@@ -67,9 +67,16 @@ const Sidebar = () => {
 
   const navigate = useNavigate()
   const location = useLocation()
+  const [isLargerThan1024] = useMediaQuery("(min-width: 1024px)")
 
   return (
-    <Flex direction="column" justifyContent="space-between" bg="brand.600">
+    <Flex
+      direction="column"
+      justifyContent="space-between"
+      bg="brand.600"
+      w={isLargerThan1024 ? "200px" : "60px"}
+      transition="700ms"
+    >
       <Flex direction="column" h="100%" maxH="860px">
         {sideBarItens.map((item) => (
           <SidebarItem
@@ -82,17 +89,20 @@ const Sidebar = () => {
         ))}
       </Flex>
 
-      <Flex
-        p="1rem"
-        justifyContent="center"
-        alignItems="center"
-        borderTop="2px solid"
-        borderColor="brand.800"
-      >
-        <Text fontSize="xs" color="brand.800" textAlign="center">
-          All rights received by WetBat 2020 ©
-        </Text>
-      </Flex>
+      {isLargerThan1024 ? (
+        <Flex
+          p="1rem"
+          justifyContent="center"
+          alignItems="center"
+          borderTop="2px solid"
+          borderColor="brand.800"
+          transition="700ms"
+        >
+          <Text fontSize="xs" color="brand.800" textAlign="center">
+            All rights received by WetBat 2020 ©
+          </Text>
+        </Flex>
+      ) : null}
     </Flex>
   )
 }
