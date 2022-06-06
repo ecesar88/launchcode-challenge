@@ -12,23 +12,82 @@ async function main() {
       minDistance: 5,
     }).generateFlight();
 
+    const departureCoordinates = await prisma.coordinates.create({
+      data: {
+        longitude: flight.departure.lon.toString(),
+        latitute: flight.departure.lat.toString(),
+      },
+    });
+
+    const arrivalCoordinates = await prisma.coordinates.create({
+      data: {
+        longitude: flight.arrival.lon.toString(),
+        latitute: flight.arrival.lat.toString(),
+      },
+    });
+
     const quote = await prisma.quote.create({
       data: {
+        departure: {
+          create: {
+            airportName: flight.departure.name,
+            cityName: flight.departure.city,
+            country: flight.departure.country,
+            IATACode: flight.departure.iata,
+            ICAOCode: flight.departure.icao,
+            coordinates: {
+              connectOrCreate: {
+                create: {
+                  latitute: flight.departure.lat.toString(),
+                  longitude: flight.departure.lon.toString(),
+                },
+
+                where: {
+                  id: departureCoordinates.id,
+                },
+              },
+            },
+          },
+        },
+        destination: {
+          create: {
+            airportName: flight.arrival.name,
+            cityName: flight.arrival.city,
+            country: flight.arrival.country,
+            IATACode: flight.arrival.iata,
+            ICAOCode: flight.arrival.icao,
+            coordinates: {
+              connectOrCreate: {
+                create: {
+                  latitute: flight.departure.lat.toString(),
+                  longitude: flight.departure.lon.toString(),
+                },
+
+                where: {
+                  id: arrivalCoordinates.id,
+                },
+              },
+            },
+          },
+        },
+
         departureDate: faker.date.soon().toISOString(),
         returnDate: faker.date.future().toISOString(),
-        departureLocation: flight.departure.icao,
-        departureAirportName: flight.departure.name,
-        destinationAirportName: flight.arrival.name,
-        destinationLocation: flight.arrival.icao,
-        numberOfTravellers: Math.floor(Math.random() * 300),
+        numberOfTravellers: faker.datatype.number({ min: 2, max: 250 }),
+
         contact: {
-          create: [{ contactInformation: faker.phone.phoneNumber() }],
-        },
-        transportationType: {
           create: [
             {
-              availableOnSite: Math.random() * 10 > 1 ? true : false,
+              phoneNumber: faker.phone.phoneNumber(),
+              email: faker.internet.email(),
+            },
+          ],
+        },
+        transportation: {
+          create: [
+            {
               type: faker.vehicle.type(),
+              availableOnSite: faker.datatype.boolean(),
             },
           ],
         },

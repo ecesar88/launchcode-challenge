@@ -12,7 +12,7 @@ import CustomTable, { ITable, ITableHeader } from "../../components/Table"
 import { formatISODateToCanadian } from "../../utils/functions"
 import { useQuery } from "react-query"
 import QuotesService from "../../services/quotes"
-import IQuote from "../../models/quote"
+import IQuote from "../../models/IQuote"
 import { SearchIcon } from "@chakra-ui/icons"
 import { useNavigate } from "react-router-dom"
 import ROUTES from "../../constants/routes"
@@ -30,7 +30,7 @@ const Quotes = () => {
     QuotesService.getAll,
     {
       onSuccess: (data) => {
-        setData(data.data)
+        setData(data.data?.data)
 
         toast({
           title: "Success",
@@ -56,7 +56,7 @@ const Quotes = () => {
     }
   )
 
-  // Simulte real request with a fake delay
+  // Simulate real request with a fake delay
   useEffect(() => {
     setTimeout(() => {
       setIsLoading(false)
@@ -67,7 +67,7 @@ const Quotes = () => {
 
   const tableHeader: ITableHeader<IQuote>[] = [
     {
-      keyName: "departureLocation",
+      keyName: "departure.cityName",
       label: "Departure",
       headerChildren: <FaPlaneDeparture size="1rem" />,
     },

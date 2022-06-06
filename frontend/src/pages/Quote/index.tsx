@@ -1,18 +1,32 @@
 import React, { useState } from "react"
 import Card from "../../components/Card"
-import { Text, Flex, IconButton, useToast, useToken } from "@chakra-ui/react"
-import { useNavigate, useParams } from "react-router-dom"
+import {
+  Text,
+  Flex,
+  IconButton,
+  useToast,
+  useToken,
+  Link,
+} from "@chakra-ui/react"
+import {
+  useNavigate,
+  useParams,
+  Link as ReactRouterLink,
+} from "react-router-dom"
 import { useQuery } from "react-query"
 import QuotesService from "../../services/quotes"
 import {
   FaCalendarDay,
   FaChevronCircleLeft,
+  FaExternalLinkAlt,
+  FaPhoneAlt,
   FaPlaneArrival,
   FaPlaneDeparture,
   FaShuttleVan,
 } from "react-icons/fa"
-import IQuote from "../../models/quote"
+import IQuote from "../../models/IQuote"
 import { formatISODateToCanadian } from "../../utils/functions"
+import { METAR_TAF_URL } from "../../constants"
 
 const Quote = () => {
   const [data, setData] = useState<IQuote>()
@@ -75,8 +89,8 @@ const Quote = () => {
 
             <Flex>
               <Text fontWeight="bold">
-                From {data?.departureAirportName} ({data?.departureLocation}) to{" "}
-                {data?.destinationAirportName} ({data?.destinationLocation})
+                From {data?.departure?.airportName} ({data?.departure?.ICAOCode}) to{" "}
+                {data?.destination?.airportName} ({data?.destination?.ICAOCode})
               </Text>
             </Flex>
           </Flex>
@@ -88,15 +102,50 @@ const Quote = () => {
               gap="1rem"
               borderRight="1px solid"
               borderRightColor="brand.700"
+              maxWidth="30%"
             >
               <Flex direction="column" alignItems="center" marginBottom="3rem">
-                <FaPlaneDeparture size="3rem" />
-                <Text fontWeight="bold">{data?.departureLocation}</Text>
+                <FaPlaneDeparture size="6rem" color={brand200} />
+                <Text fontWeight="bold" fontSize="2.8rem">
+                  {data?.departure?.ICAOCode}
+                </Text>
+                <Text fontWeight="bold" fontSize="0.8rem">
+                  {data?.departure?.airportName}
+                </Text>
+
+                <Flex gap="1rem" alignItems="center">
+                  <Link
+                    fontWeight="bold"
+                    href={`${METAR_TAF_URL}/${data?.departure?.ICAOCode?.toUpperCase()}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    METAR & TAF
+                  </Link>
+                  <FaExternalLinkAlt />
+                </Flex>
               </Flex>
 
               <Flex direction="column" alignItems="center">
-                <FaPlaneArrival size="3rem" />
-                <Text fontWeight="bold">{data?.destinationLocation}</Text>
+                <FaPlaneArrival size="6rem" color={brand200} />
+                <Text fontWeight="bold" fontSize="2.8rem">
+                  {data?.destination?.ICAOCode}
+                </Text>
+                <Text fontWeight="bold" fontSize="0.8rem">
+                  {data?.destination?.airportName}
+                </Text>
+
+                <Flex gap="1rem" alignItems="center">
+                  <Link
+                    fontWeight="bold"
+                    href={`${METAR_TAF_URL}/${data?.destination?.ICAOCode?.toUpperCase()}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    METAR & TAF
+                  </Link>
+                  <FaExternalLinkAlt />
+                </Flex>
               </Flex>
             </Flex>
 
@@ -137,8 +186,8 @@ const Quote = () => {
               </Flex>
 
               <Flex>
-                {data?.transportationType ? (
-                  data?.transportationType?.map((transportation) => (
+                {data?.transportation?.length ? (
+                  data?.transportation?.map((transportation) => (
                     <Flex
                       key={transportation?.id}
                       direction="column"
@@ -171,7 +220,7 @@ const Quote = () => {
 
             <Flex direction="column" gap="1rem" padding="1rem">
               <Flex gap="1rem" alignItems="center">
-                <FaShuttleVan size="2rem" color={brand200} />
+                <FaPhoneAlt size="2rem" color={brand200} />
                 <Text fontWeight="bold">Contact</Text>
               </Flex>
 
@@ -182,7 +231,8 @@ const Quote = () => {
                       <Flex gap="1rem">
                         <Flex gap="1rem">
                           <Text fontWeight="bold">Phone</Text>
-                          <Text>{contact?.contactInformation}</Text>
+                          <Text>{contact?.phoneNumber}</Text>
+                          <Text>{contact?.email}</Text>
                         </Flex>
                       </Flex>
                     </Flex>

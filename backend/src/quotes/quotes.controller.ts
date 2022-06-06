@@ -6,17 +6,27 @@ import {
   Patch,
   Param,
   Delete,
+  HttpStatus,
+  HttpCode,
+  Query,
 } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
 import { QuoteDto } from './dto/quote.dto';
+import ROUTES from 'src/constants/routes';
 
-@Controller('quotes')
+@Controller(ROUTES.QUOTES)
 export class QuotesController {
   constructor(private readonly quotesService: QuotesService) {}
 
   @Post()
   create(@Body() quoteDto: QuoteDto) {
     return this.quotesService.create(quoteDto);
+  }
+
+  @Get(`${ROUTES.QUOTES_PAGINATE}`)
+  paginate(@Query() queryParams: Record<string, string>) {
+    console.log(queryParams);
+    return this.quotesService.paginate(queryParams.skip, queryParams.take);
   }
 
   @Get()
@@ -35,6 +45,7 @@ export class QuotesController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   remove(@Param('id') id: string) {
     return this.quotesService.remove(id);
   }

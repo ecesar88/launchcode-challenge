@@ -11,11 +11,17 @@ export class QuotesService {
       const quote = this.prismaService.quote.create({
         data: {
           ...quoteDto,
+          departure: {
+            create: quoteDto.departure,
+          },
+          destination: {
+            create: quoteDto.destination,
+          },
           contact: {
             create: [...quoteDto.contact],
           },
-          transportationType: {
-            create: [...quoteDto.transportationType],
+          transportation: {
+            create: [...quoteDto.transportation],
           },
         },
       });
@@ -26,53 +32,110 @@ export class QuotesService {
     }
   }
 
-  findAll() {
+  async findAll() {
     try {
-      return this.prismaService.quote.findMany({
+      const data = await this.prismaService.quote.findMany({
         include: {
           contact: true,
-          transportationType: true,
+          transportation: true,
+          departure: {
+            include: {
+              coordinates: true,
+            },
+          },
+          destination: {
+            include: {
+              coordinates: true,
+            },
+          },
         },
       });
+
+      return {
+        count: data?.length,
+        data,
+      };
     } catch (error) {
       throw error;
     }
   }
 
-  findOne(id: string) {
+  async paginate(skip: string, take = '10') {
     try {
-      return this.prismaService.quote.findUnique({
+      const data = await this.prismaService.quote.findMany({
+        skip: parseInt(skip),
+        take: parseInt(take),
+        include: {
+          contact: true,
+          transportation: true,
+          departure: {
+            include: {
+              coordinates: true,
+            },
+          },
+          destination: {
+            include: {
+              coordinates: true,
+            },
+          },
+        },
+      });
+
+      return {
+        count: data?.length,
+        data,
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findOne(id: string) {
+    try {
+      const data = await this.prismaService.quote.findUnique({
         where: {
           id: id,
         },
         include: {
           contact: true,
-          transportationType: true,
+          transportation: true,
+          departure: {
+            include: {
+              coordinates: true,
+            },
+          },
+          destination: {
+            include: {
+              coordinates: true,
+            },
+          },
         },
       });
+
+      return {
+        data,
+      };
     } catch (error) {
       throw error;
     }
   }
 
-  update(id: string, quoteDto: QuoteDto) {
+  async update(id: string, quoteDto: QuoteDto) {
     try {
-      return this.prismaService.quote.update({
+      return this.prismaService.quote.updateMany({
         where: {
           id: id,
         },
-        data: {
-          ...quoteDto,
-        },
+        data: quoteDto,
       });
     } catch (error) {
       throw error;
     }
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     try {
-      return this.prismaService.quote.delete({
+      await this.prismaService.quote.delete({
         where: {
           id: id,
         },

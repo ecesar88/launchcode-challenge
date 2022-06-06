@@ -53,7 +53,7 @@ const CustomTable = <T extends Record<string, any>>(props: ITable<T>) => {
           </Tr>
         </Thead>
 
-        <Tbody style={{ fontFamily: "Calibri" }}>
+        <Tbody>
           {content?.map((data, dataIndex) => {
             return (
               <Tr key={dataIndex}>
@@ -66,7 +66,8 @@ const CustomTable = <T extends Record<string, any>>(props: ITable<T>) => {
                               data?.[headerItem?.keyName as string]
                             )
                           : data?.[headerItem?.keyName as string]) ??
-                          headerItem?.render?.(content?.[dataIndex])}
+                          headerItem?.render?.(content?.[dataIndex]) ??
+                          ""}
                       </div>
                     </Td>
                   )

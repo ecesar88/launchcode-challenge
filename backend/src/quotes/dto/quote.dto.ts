@@ -1,32 +1,30 @@
-import { Contact, Quote, TransportationType } from '@prisma/client';
+import { Contact, Quote, Transportation, Location } from '@prisma/client';
 import {
   IsArray,
   IsDateString,
   IsNotEmpty,
+  IsNotEmptyObject,
   IsNumber,
-  IsString,
+  IsObject,
 } from 'class-validator';
 
-type QuoteDTO = Omit<Quote, 'id' | 'createdAt' | 'updatedAt'>;
+type keysToOmit =
+  | 'id'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'departureLocationId'
+  | 'destinationLocationId';
+
+type QuoteDTO = Omit<Quote, keysToOmit>;
 
 export class QuoteDto implements QuoteDTO {
-  @IsString()
-  @IsNotEmpty()
-  departureLocation: string;
+  @IsObject()
+  @IsNotEmptyObject()
+  departure: Location;
 
-  @IsString()
-  departureAirportName: string;
-
-  @IsString()
-  destinationAirportName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  destinationLocation: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  numberOfTravellers: number;
+  @IsObject()
+  @IsNotEmptyObject()
+  destination: Location;
 
   @IsDateString()
   @IsNotEmpty()
@@ -35,9 +33,13 @@ export class QuoteDto implements QuoteDTO {
   @IsDateString()
   returnDate: string;
 
-  @IsArray()
-  transportationType: TransportationType[];
+  @IsNumber()
+  @IsNotEmpty()
+  numberOfTravellers: number;
 
   @IsArray()
   contact: Contact[];
+
+  @IsArray()
+  transportation: Transportation[];
 }

@@ -1,7 +1,7 @@
 type Contact = {
   id: string
-  contactInformation: string
-  quoteId: string
+  phoneNumber: string
+  email: string
 }
 
 type Transportation = {
@@ -10,19 +10,30 @@ type Transportation = {
   availableOnSite: boolean
 }
 
+type Location = {
+  id: string
+  airportName: string
+  cityName: string
+  country: string
+  ICAOCode: string
+  IATACode: string
+}
+
 interface IQuote {
   id: string
   createdAt: string
   updatedAt: string
-  departureAirportName: string
-  departureLocation: string
-  destinationLocation: string
-  destinationAirportName: string
+
+  departure: Location
+  destination: Location
+
   departureDate: string
   returnDate: string
+
   numberOfTravellers: number
+
   contact: Contact[]
-  transportationType: Transportation[]
+  transportation: Transportation[]
 }
 
 export default IQuote

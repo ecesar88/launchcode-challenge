@@ -15,40 +15,59 @@ model Quote {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  departureAirportName   String
-  destinationAirportName String
-
-  departureLocation   String
-  destinationLocation String
+  departure   Location @relation(name: "QuoteDepartureLocation", fields: [departureLocationId], references: [id])
+  destination Location @relation(name: "QuoteDestinationLocation", fields: [destinationLocationId], references: [id])
 
   departureDate String
   returnDate    String
 
   numberOfTravellers Int
 
-  contact            Contact[]
-  transportationType TransportationType[]
+  contact        Contact[]
+  transportation Transportation[]
 
-  @@map("quotes")
+  departureLocationId   String
+  destinationLocationId String
 }
 
-model TransportationType {
+model Location {
+  id          String @id @default(uuid())
+  airportName String
+  cityName    String
+  country     String
+
+  ICAOCode String
+  IATACode String
+
+  coordinates   Coordinates @relation(name: "LocationCoordinates", fields: [coordinatesId], references: [id])
+  coordinatesId String
+
+  QuoteDepartureLocation   Quote[] @relation("QuoteDepartureLocation")
+  QuoteDestinationLocation Quote[] @relation("QuoteDestinationLocation")
+}
+
+model Coordinates {
+  id        String @id @default(uuid())
+  latitute  String
+  longitude String
+
+  LocationCoordinates Location[] @relation("LocationCoordinates")
+}
+
+model Transportation {
   id              String  @id @default(uuid())
   type            String
   availableOnSite Boolean
 
   Quote   Quote?  @relation(fields: [quoteId], references: [id])
   quoteId String?
-
-  @@map("transportationTypes")
 }
 
 model Contact {
-  id                 String @id @default(uuid())
-  contactInformation String
+  id          String @id @default(uuid())
+  phoneNumber String
+  email       String
 
   Quote   Quote?  @relation(fields: [quoteId], references: [id])
   quoteId String?
-
-  @@map("contact")
 }
