@@ -22,3 +22,6 @@ API Endpoints:
 
 This  repository is divided in two main folders: backend and frontend.
 The instructions on how to install all the dependencies and start the respective projects are on its respective folders.
+
+Bonus: The project also uses an free and public API for fetching airport weather information such as METAR and TAF.
+The API can be found at: https://www.checkwxapi.com/
