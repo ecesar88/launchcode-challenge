@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useMemo, useState } from "react"
 import Card from "../../components/Card"
 import {
   Text,
@@ -66,6 +66,7 @@ const Quote = () => {
     [data],
     () => CheckWxService.getTaf(`${data?.departure?.ICAOCode}`),
     {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       onSuccess: (data: any) => {
         setWeatherData(data?.data)
       },
