@@ -92,8 +92,6 @@ const Quote = () => {
     )
   }, [weatherData, data])
 
-  console.log(departureWeatherData)
-
   const destinationWeatherData = useMemo(() => {
     return weatherData?.data?.find(
       (station) =>
