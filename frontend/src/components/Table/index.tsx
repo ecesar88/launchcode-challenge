@@ -10,15 +10,13 @@ import {
 } from "@chakra-ui/react"
 
 export interface ITableHeader<T> {
-  keyName?: string
+  render?: (rowData: T) => string | React.ReactNode
   label?: string
-  format?: (cellData: string) => string
 
   cellStyle?: CSSProperties
   headerStyle?: CSSProperties
 
   headerChildren?: React.ReactNode
-  render?: (rowData: T) => React.ReactNode
 }
 
 export interface ITable<T> {
@@ -61,13 +59,7 @@ const CustomTable = <T extends Record<string, any>>(props: ITable<T>) => {
                   return (
                     <Td key={hIdx}>
                       <div style={headerItem?.cellStyle ?? defaultCellStyle}>
-                        {(headerItem?.format
-                          ? headerItem?.format(
-                              data?.[headerItem?.keyName as string]
-                            )
-                          : data?.[headerItem?.keyName as string]) ??
-                          headerItem?.render?.(content?.[dataIndex]) ??
-                          ""}
+                        {headerItem?.render?.(data)}
                       </div>
                     </Td>
                   )

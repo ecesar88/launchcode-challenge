@@ -11,13 +11,14 @@ import Card from "../../components/Card"
 import CustomTable, { ITable, ITableHeader } from "../../components/Table"
 import { formatISODateToCanadian } from "../../utils/functions"
 import { useQuery } from "react-query"
-import QuotesService from "../../services/quotes"
+import QuotesService from "../../services/QuotesService"
 import IQuote from "../../models/IQuote"
 import { SearchIcon } from "@chakra-ui/icons"
 import { useNavigate } from "react-router-dom"
 import ROUTES from "../../constants/routes"
 import { FaCalendarDay, FaPlaneArrival, FaPlaneDeparture } from "react-icons/fa"
 import { BsFillPeopleFill } from "react-icons/bs"
+import { MdLocationCity } from "react-icons/md"
 
 const Quotes = () => {
   const [data, setData] = useState([])
@@ -67,29 +68,67 @@ const Quotes = () => {
 
   const tableHeader: ITableHeader<IQuote>[] = [
     {
-      keyName: "departure.cityName",
-      label: "Departure",
+      render: (row) =>
+        row?.departure?.cityName ? (
+          <>
+            <b>
+              {row.departure?.cityName} - {row?.departure.country}
+            </b>
+          </>
+        ) : (
+          <>
+            <b>{row?.departure.country}</b>
+          </>
+        ),
+      label: "Departure city",
+      headerChildren: <MdLocationCity size="1rem" />,
+    },
+    {
+      render: (row) => (
+        <>
+          <b>{row.departure?.ICAOCode}</b> - {row.departure.airportName}
+        </>
+      ),
+      label: "Departure airport",
       headerChildren: <FaPlaneDeparture size="1rem" />,
     },
     {
-      keyName: "destinationLocation",
-      label: "Destination",
+      render: (row) =>
+        row?.destination?.cityName ? (
+          <>
+            <b>
+              {row.destination?.cityName} - {row?.destination.country}
+            </b>
+          </>
+        ) : (
+          <>
+            No city info available - <b>{row?.destination.country}</b>
+          </>
+        ),
+      label: "Destionation city",
+      headerChildren: <MdLocationCity size="1rem" />,
+    },
+    {
+      render: (row) => (
+        <>
+          <b>{row?.destination?.ICAOCode}</b> - {row?.destination?.airportName}
+        </>
+      ),
+      label: "Destination airport",
       headerChildren: <FaPlaneArrival size="1rem" />,
     },
     {
-      keyName: "departureDate",
+      render: (row) => formatISODateToCanadian(row?.departureDate),
       label: "Departure Date",
-      format: formatISODateToCanadian,
       headerChildren: <FaCalendarDay size="1rem" />,
     },
     {
-      keyName: "returnDate",
+      render: (row) => formatISODateToCanadian(row?.returnDate),
       label: "Return Date",
-      format: formatISODateToCanadian,
       headerChildren: <FaCalendarDay size="1rem" />,
     },
     {
-      keyName: "numberOfTravellers",
+      render: (row) => row?.numberOfTravellers.toString(),
       label: "No. of Travellers",
       headerChildren: <BsFillPeopleFill size="1rem" />,
       cellStyle: {
