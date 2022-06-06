@@ -14,8 +14,10 @@ interface IQuote {
   id: string
   createdAt: string
   updatedAt: string
+  departureAirportName: string
   departureLocation: string
   destinationLocation: string
+  destinationAirportName: string
   departureDate: string
   returnDate: string
   numberOfTravellers: number

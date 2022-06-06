@@ -15,6 +15,9 @@ model Quote {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  departureAirportName   String
+  destinationAirportName String
+
   departureLocation   String
   destinationLocation String
 

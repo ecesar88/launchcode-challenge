@@ -17,6 +17,8 @@ async function main() {
         departureDate: faker.date.soon().toISOString(),
         returnDate: faker.date.future().toISOString(),
         departureLocation: flight.departure.icao,
+        departureAirportName: flight.departure.name,
+        destinationAirportName: flight.arrival.name,
         destinationLocation: flight.arrival.icao,
         numberOfTravellers: Math.floor(Math.random() * 300),
         contact: {

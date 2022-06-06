@@ -14,7 +14,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider resetCSS theme={globalTheme}>
         <BrowserRouter>
-          <Flex flexDirection="column" h="100%">
+          <Flex flexDirection="column" h="100%" maxHeight={window.innerHeight + "px"}>
             <NavBar />
 
             <Flex h="100%" w="100%">

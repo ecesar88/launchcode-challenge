@@ -15,6 +15,12 @@ export class QuoteDto implements QuoteDTO {
   departureLocation: string;
 
   @IsString()
+  departureAirportName: string;
+
+  @IsString()
+  destinationAirportName: string;
+
+  @IsString()
   @IsNotEmpty()
   destinationLocation: string;
 

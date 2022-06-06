@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import Card from "../../components/Card"
 import { Text, Flex, IconButton, useToast, useToken } from "@chakra-ui/react"
 import { useNavigate, useParams } from "react-router-dom"
@@ -16,7 +16,6 @@ import { formatISODateToCanadian } from "../../utils/functions"
 
 const Quote = () => {
   const [data, setData] = useState<IQuote>()
-  const [isLoading, setIsLoading] = useState(true)
 
   const toast = useToast()
   const [brand200] = useToken("colors", ["brand.200"])
@@ -24,42 +23,31 @@ const Quote = () => {
   const { quoteId } = useParams()
   const navigate = useNavigate()
 
-  const { isLoading: _isLoadingReactQuery } = useQuery(
-    "fetchQuote",
-    () => QuotesService.getOne(quoteId as string),
-    {
-      onSuccess: (data) => {
-        setData(data.data)
-        toast({
-          title: "Success",
-          description: "Request made successfully",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom-right",
-        })
-      },
-      onError: () => {
-        toast({
-          title: "Something went wrong",
-          description: "We could not fetch the data you are looking for",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "bottom-right",
-        })
-      },
-      refetchIntervalInBackground: false,
-      refetchOnWindowFocus: false,
-    }
-  )
-
-  // Simulte real request with a fake delay
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
-  }, [_isLoadingReactQuery])
+  useQuery("fetchQuote", () => QuotesService.getOne(quoteId as string), {
+    onSuccess: (data) => {
+      setData(data.data)
+      toast({
+        title: "Success",
+        description: "Request made successfully",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right",
+      })
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        description: "We could not fetch the data you are looking for",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-right",
+      })
+    },
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+  })
 
   return (
     <Flex direction="column" gap="1rem" width="100%">
@@ -87,7 +75,8 @@ const Quote = () => {
 
             <Flex>
               <Text fontWeight="bold">
-                From {data?.departureLocation} to {data?.destinationLocation}
+                From {data?.departureAirportName} ({data?.departureLocation}) to{" "}
+                {data?.destinationAirportName} ({data?.destinationLocation})
               </Text>
             </Flex>
           </Flex>
